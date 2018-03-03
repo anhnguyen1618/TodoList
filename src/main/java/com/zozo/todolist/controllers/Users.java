@@ -27,15 +27,29 @@ public class Users {
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
+    @RequestMapping(method = RequestMethod.PUT, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<?> update(@RequestBody User user) {
+        User matchedUser = userRepository.findByUsername(user.getUsername());
+        if (matchedUser == null) {
+            return new ResponseEntity<>("This user does not exist", HttpStatus.NOT_FOUND);
+        }
 
-//    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = {MediaType.ALL_VALUE})
-//    @Transactional
-//    public ResponseEntity<?> delete(@PathVariable("id") int id) {
-//        Task foundTask = taskRepository.findOne(id);
-//        if (foundTask == null) {
-//            return new ResponseEntity<>("This task does not exist", HttpStatus.NOT_FOUND);
-//        }
-//        taskRepository.delete(id);
-//        return new ResponseEntity<>("task " + id + " is deleted now", HttpStatus.OK);
-//    }
+        User savedUsers = userRepository.save(user);
+
+        return new ResponseEntity<>(savedUsers, HttpStatus.OK);
+    }
+
+    @RequestMapping(method = RequestMethod.DELETE, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<?> remove(@RequestBody User user) {
+        User matchedUser = userRepository.findByUsername(user.getUsername());
+        if (matchedUser == null) {
+            return new ResponseEntity<>("This user does not exist", HttpStatus.NOT_FOUND);
+        }
+
+        userRepository.delete(user);
+
+        return new ResponseEntity<>("User is deleted", HttpStatus.OK);
+    }
+
+
 }
