@@ -34,6 +34,10 @@ public class Users {
             return new ResponseEntity<>("This user does not exist", HttpStatus.NOT_FOUND);
         }
 
+        if (user.getPassword() == null) {
+            user.setPassword(matchedUser.getPassword());
+        }
+
         User savedUsers = userRepository.save(user);
 
         return new ResponseEntity<>(savedUsers, HttpStatus.OK);

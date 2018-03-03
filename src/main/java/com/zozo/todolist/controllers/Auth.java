@@ -44,9 +44,14 @@ public class Auth {
     @RequestMapping(value = "/login",method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> login(HttpServletResponse response, @RequestBody User user) {
 
+        User matchedUser = userRepository.findOne(user.getUsername());
+        if (matchedUser == null) {
+            return new ResponseEntity<>("Login failed", HttpStatus.NOT_ACCEPTABLE);
+        }
+
+        user.setRole(matchedUser.getRole());
         TokenAuthenticationService.authenticateOnLogin(authenticationManager, user, response);
 
-        User matchedUser = userRepository.findOne(user.getUsername());
         return new ResponseEntity<>(matchedUser, HttpStatus.OK);
     }
 
