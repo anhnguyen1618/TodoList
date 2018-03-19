@@ -18,7 +18,7 @@ public class Comment {
     @JoinColumn(name="author")
     private User author;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
+    @ManyToOne()
     @JoinColumn(name="task_id")
     private Task task;
 
@@ -33,6 +33,12 @@ public class Comment {
 
     public void setTask(Task task) {
        this.task = task;
+    }
+
+    public void setTask(int taskID) {
+        Task task = new Task();
+        task.setId(taskID);
+        task.addComment(this);
     }
 
     public void setAuthor(String authorName) {

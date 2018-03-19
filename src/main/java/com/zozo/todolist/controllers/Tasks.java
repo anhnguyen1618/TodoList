@@ -66,7 +66,7 @@ public class Tasks {
         return new ResponseEntity<>("task " + id + " is deleted now", HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/{id}/comments", method = RequestMethod.POST, produces = {MediaType.ALL_VALUE})
+    @RequestMapping(value = "/{id}/comments", method = RequestMethod.POST, produces = {MediaType.APPLICATION_JSON_VALUE})
     @Transactional
     public ResponseEntity<?> addComment(@PathVariable("id") int id, @RequestBody Comment comment, Authentication authentication) {
         Task foundTask = taskRepository.findOne(id);
