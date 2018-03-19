@@ -29,7 +29,7 @@ public class Task {
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.REFRESH})
     private User assignor;
 
-    @OneToMany(mappedBy = "task", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "task", cascade = CascadeType.REMOVE)
     private List<Comment> comments;
 
     public void setId(int id) {
